@@ -2,15 +2,11 @@
 
 int main() {
     
-    int x;
+    int qnt, cont = 0;
 
-    while(1) {
-        scanf("%d", &x);
-
-        if(x == EOF) { break; }
+    while (scanf("%d", &qnt) != EOF) {
+        cont++;
     }
 
-    printf(x);
-
-    return 0;
+    printf("%d", cont);
 }
