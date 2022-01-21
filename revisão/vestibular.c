@@ -4,7 +4,7 @@ int main() {
     
     // %[^\n]
     int qntQuestoes, certas = 0;
-    char gabarito[16], gabaritoUser[16];
+    char gabarito[81], gabaritoUser[81];
 
     scanf("%d", &qntQuestoes);
     scanf(" %s", gabarito);
