@@ -1,12 +1,20 @@
-#include<stdio.h>
+#include <stdio.h>
 
 int main() {
-    int num, cont=0;
+    // Write C code here
+    int num, pares=0, impares=0;
+    
+    do {
+        scanf("%d", &num);
 
-    while (scanf("%d", &num) != 0) {
-        cont++;
-        num += cont;
-    }
+        if(num % 2 == 0) {
+            pares += num;
+        } else {
+            impares += num;
+        }
+    } while(num != 0);
 
-    printf("%d %d", cont, num);
+    printf("%d %d", pares, impares);
+
+    return 0;
 }
