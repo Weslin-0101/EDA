@@ -20,8 +20,11 @@ struct tipoPessoa separaInfo(char nome[80], int dt_nascimento) {
         r.nome[i] = nome[i];
     }
 
+    printf("%d\n", dt_nascimento);
     r.dtNascimento.dia = dt_nascimento % 100;
+    printf("%d\n", dt_nascimento);
     dt_nascimento = dt_nascimento / 100;
+    printf("%d\n", dt_nascimento);
 
     r.dtNascimento.mes = dt_nascimento % 100;
     dt_nascimento =  dt_nascimento / 100;
