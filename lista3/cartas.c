@@ -1,118 +1,82 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct tipoNo
+typedef struct cel
 {
-    int valor;
-    struct tipoNo *prox;
-} tipoNo;
+    int dado;
+    struct cel *prox;
+} cel;
 
-typedef struct tipoPilha
+cel *cria_pilha()
 {
-    tipoNo *topo;
-} tipoPilha;
-
-short qtdDescarte;
-
-void criaPilha(tipoPilha *pilha)
-{
-    pilha->topo = NULL;
+    cel *novo = malloc(sizeof(cel));
+    novo->prox = novo;
+    return novo;
 }
 
-void empilha(tipoPilha *pilha, int carta)
+cel *empilhar(cel *pilha, int x)
 {
-    tipoNo *ponteiro = (tipoNo *)malloc(sizeof(tipoNo));
+    cel *ponteiro = malloc(sizeof(cel));
+    ponteiro->prox = pilha->prox;
+    pilha->prox = ponteiro;
+    pilha->dado = x;
+    return ponteiro;
+}
 
-    if (!ponteiro)
+int desempilhar(cel *f)
+{
+    int numero = 0;
+    cel *retirar = f->prox;
+    if (f->prox == f)
     {
-        exit(1);
+        return 0;
     }
-
-    ponteiro->prox = pilha->topo;
-    pilha->topo = ponteiro;
-    ponteiro->valor = carta;
-}
-
-void remover(tipoPilha *pilha, int *descartes)
-{
-    tipoNo *ponteiro;
-    if (ponteiro)
+    else
     {
-        if (!pilha->topo->prox)
-        {
-            return;
-        }
-
-        do
-        {
-            ponteiro = pilha->topo;
-            descartes[qtdDescarte++] = ponteiro->valor;
-            pilha->topo = pilha->topo->prox;
-            free(ponteiro);
-            moverTopo(pilha);
-        } while (pilha->topo->prox);
+        numero = retirar->dado;
+        f->prox = retirar->prox;
+        free(retirar);
+        return numero;
     }
 }
 
-void moverTopo(tipoPilha *pilha)
+int main()
 {
-    tipoNo *aux, *base;
-    base = pilha->topo;
-    aux = pilha->topo;
 
-    if (base->prox)
+    int cartas, num = 0;
+    int i = 0, contador = 0;
+    cel *pilha = cria_pilha();
+
+    scanf("%d", &cartas);
+
+    for (i = 1; i <= cartas; i++)
     {
-        while (base->prox)
-        {
-            base = base->prox;
-        }
-        pilha->topo = pilha->topo->prox;
-        aux->prox = base->prox;
-        base->prox = aux;
+        pilha = empilhar(pilha, i);
     }
-}
-
-void apagaPilha(tipoPilha *pilha)
-{
-    tipoNo *aux;
-
-    aux = pilha->topo;
-    pilha->topo = NULL;
-    free(aux);
-}
-
-void main()
-{
-    int carta;
-    tipoPilha pilha;
-    short i;
-
-    scanf("%d", &carta);
-
-    if (carta == 0 || carta > 50)
-    {
-        return;
-    }
-    criaPilha(&pilha);
-    int descartar[carta];
-
-    for (i = carta; i > 0; i--)
-    {
-        empilha(&pilha, i);
-    }
-    qtdDescarte = 0;
-    remover(&pilha, descartar);
 
     printf("Cartas descartadas:");
-    for (i = 0; i < qtdDescarte; i++)
+    contador = 1;
+
+    for (contador = cartas; contador >= 1; contador--)
     {
-        printf(" %d", descartar[i]);
-        if (i != qtdDescarte - 1)
+        if (contador > 2)
         {
-            printf(",");
+            printf(" %d", desempilhar(pilha));
+            num = desempilhar(pilha);
+            pilha = empilhar(pilha, num);
+        }
+
+        if (contador == 2)
+        {
+            printf(" %d\n", desempilhar(pilha));
+        }
+
+        if (contador == 1)
+        {
+            printf("Carta restante:");
+            printf(" %d\n", desempilhar(pilha));
         }
     }
 
-    printf("\nCarta restante: %d\n", pilha.topo->valor);
-    apagaPilha(&pilha);
+    return 0;
 }
